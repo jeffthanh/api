@@ -8,7 +8,7 @@ const sliderController = {
             // Kiểm tra xem ID đã tồn tại hay chưa
             const existingSlider = await slider.findOne({ name: newSlider.name });
             if (existingSlider) {
-                throw new Error("Slider with the same name already exists");
+                throw new Error("slider with the same name already exists");
             }
             const savedSlider = await newSlider.save();
             res.status(200).json(savedSlider);
