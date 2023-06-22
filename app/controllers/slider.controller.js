@@ -6,7 +6,7 @@ const sliderController = {
         try {
             const newSlider = new slider(req.body);
             // Kiểm tra xem ID đã tồn tại hay chưa
-            const existingSlider = await slider.findOne({ name: newSlider.name });
+            const existingSlider = await slider.findOne({ id: newSlider.id });
             if (existingSlider) {
                 throw new Error("slider with the same name already exists");
             }

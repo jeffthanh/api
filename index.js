@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const sliderRoute = require("./app/routes/slider.router");
-const categoriesRoute = require("./app/routes/categorie.router");
+const categoriesRoute = require("./app/routes/category.router");
 const productRouter = require("./app/routes/product.router");
 
 dotenv.config();
