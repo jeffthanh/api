@@ -44,6 +44,41 @@ const categoriesController = {
             res.status(500).json({ error: error.message });
         }
     },
+    deleteCategory: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const deletedCategory = await categories.findByIdAndRemove(id);
+
+            if (!deletedCategory) {
+                throw new Error("Category not found");
+            }
+
+            res.status(200).json({ message: "Category deleted successfully" });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    updateCategory: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { name, image } = req.body;
+
+            const updatedCategory = await categories.findByIdAndUpdate(
+                id,
+                { name, image },
+                { new: true }
+            );
+
+            if (!updatedCategory) {
+                throw new Error("Category not found");
+            }
+
+            res.status(200).json(updatedCategory);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 

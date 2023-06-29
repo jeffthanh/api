@@ -44,6 +44,66 @@ const productController = {
             res.status(500).json({ error: error.message });
         }
     },
+    getProducts: async (req, res) => {
+        try {
+            const { offset, sortBy, order, special } = req.query;
+
+            // Xử lý các tham số và áp dụng vào truy vấn
+            const query = Product.find();
+            if (offset) {
+                query.skip(Number(offset));
+            }
+            if (sortBy) {
+                query.sort({ [sortBy]: order === "asc" ? 1 : -1 });
+            }
+            if (special) {
+                query.where({ special: true });
+            }
+
+            // Thực hiện truy vấn và trả về kết quả
+            const products = await query.exec();
+            res.status(200).json(products);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    updateProduct: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { name, price, image, description, special, category } = req.body;
+
+            const updatedProduct = await Product.findByIdAndUpdate(
+                id,
+                { name, price, image, description, special, category },
+                { new: true }
+            );
+
+            if (!updatedProduct) {
+                throw new Error("Product not found");
+            }
+
+            res.status(200).json(updatedProduct);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+    deleteProduct: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const deletedProduct = await Product.findByIdAndDelete(id);
+
+            if (!deletedProduct) {
+                throw new Error("Product not found");
+            }
+
+            res.status(200).json({ message: "Product deleted successfully" });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
+
 
 module.exports = productController;
